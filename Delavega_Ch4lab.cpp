@@ -37,7 +37,7 @@ then return the speed of which sound moves in said medium
 int promptUser(){
     int speed;
     string medium;
-    cout << "Medium: ";
+    cout << "Enter a Medium from below \n\t1. Air\n\t2. Water\n\t2. Steel\nMedium: ";
     cin >> medium;
 
     return validateUser(medium);
