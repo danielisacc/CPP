@@ -11,24 +11,22 @@ by displayng a row of asterisks. Each askterisk represents $100 of sales rounded
 #include <iostream>
 using namespace std;
 
-int retrieveSales(int numOfStores);
-int displaySalesChart(int stores[], int numOfStores, int perAsterisk);
+int* retrieveSales(int *stores, int numOfStores, int perAsterisk);
+int displaySalesChart(int *stores, int numOfStores, int perAsterisk);
 int intRound(int num, int nearest);
 
 int main(){
-    int numOfStores = 3;
+    const int numOfStores = 3;
+    int stores[numOfStores];
     int roundTo = 100;
     int asteriskVal = 100;
-    
-    stores = retrieveSales(numOfStores);
-    cout << "    DAILY SALES    " << endl;
-    cout << "  each * = $" << asteriskVal << endl << endl;
-    displaySalesChart(stores);
+
+    displaySalesChart(retrieveSales(stores, numOfStores, asteriskVal), numOfStores, asteriskVal);
 }
 
-int retrieveSales(int numOfStores) {
-    int stores[];
-    for ((int i = 0; i < numOfStores; i++)){
+int* retrieveSales(int *stores, int numOfStores, int perAsterisk) {
+
+    for (int i = 0; i < numOfStores; i++){
         while(true) {
             int sales;
             cout << "Enter today's sales for Store " << i + 1 << ": ";
@@ -39,13 +37,15 @@ int retrieveSales(int numOfStores) {
             }
         }
     }
-    return stores[]
+    cout << "    DAILY SALES    " << endl;
+    cout << "  each * = $" << perAsterisk << endl << endl;
+    return stores;
 }
 
-int displaySalesChart(int stores[], int numOfStores, int perAsterisk) {
+int displaySalesChart(int *stores, int numOfStores, int perAsterisk) {
     for (int store = 0; store < numOfStores; store++){
-        cout << "Store " << i + 1 << ": ";
-        for (int i = 0; i < (stores[i]/perAsterisk); i++) {
+        cout << "Store " << store + 1 << ": ";
+        for (int i = 0; i < (stores[store]/perAsterisk); i++) {
             cout << "*";
         }
         cout << endl;
@@ -60,7 +60,7 @@ Function to round integers to the nearest specified number
 */
 int intRound(int num, int nearest) {
 
-    double halfNearest = nearest/2
+    double halfNearest = nearest/2;
     int numModulo = num % nearest;
     int numToNearestDif = nearest - numModulo;
 
