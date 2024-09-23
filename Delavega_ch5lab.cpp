@@ -21,27 +21,47 @@ int main(){
     int roundTo = 100;
     int asteriskVal = 100;
 
-    displaySalesChart(retrieveSales(stores, numOfStores, asteriskVal), numOfStores, asteriskVal);
+    return displaySalesChart(retrieveSales(stores, numOfStores, asteriskVal), numOfStores, asteriskVal);
 }
 
+
+/*
+Function: retrieveSales
+Params: int stores[], int numOfStores, int perAsterisk
+Returns: int[] store sales
+
+Function prompts the user for store sales data within the district and
+validated the data to ensure entries are greater than 0.
+If the user enters a number that is not valid, the user will be
+repeatedly prompted until a valid number is entered.
+*/
 int* retrieveSales(int *stores, int numOfStores, int perAsterisk) {
 
     for (int i = 0; i < numOfStores; i++){
-        while(true) {
-            int sales;
+        int sales;
             cout << "Enter today's sales for Store " << i + 1 << ": ";
             cin >> sales;
-            if (sales > 0) {
-                stores[i] = intRound(sales,100);
-                break;
-            }
+        while(sales < 0) {
+            cout << "Please enter a positive number: ";
+            cin >> sales;
         }
+        stores[i] = intRound(sales,100);
     }
+    cout << endl;
     cout << "    DAILY SALES    " << endl;
-    cout << "  each * = $" << perAsterisk << endl << endl;
+    cout << "   each * = $" << perAsterisk << endl;
+    cout << endl;
     return stores;
 }
 
+
+/*
+Function: displaySalesChart
+Params: int store[], int numOfStores, int perAsterisk
+Return: int failstate
+
+Function takes stores sales data and prints a bar graph to the terminal
+*/
 int displaySalesChart(int *stores, int numOfStores, int perAsterisk) {
     for (int store = 0; store < numOfStores; store++){
         cout << "Store " << store + 1 << ": ";
@@ -50,6 +70,7 @@ int displaySalesChart(int *stores, int numOfStores, int perAsterisk) {
         }
         cout << endl;
     }
+    return 0;
 }
 /*
 Function: intRound
