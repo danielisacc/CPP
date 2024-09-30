@@ -8,6 +8,8 @@ This program is intended to display a menu
 allowing the user to select air, water, or steel,
 and then has the user enter the numner of feet a
 sound wave will travel in the selected medium.
+The program should then compute and display 
+(with four decimal places) the number of seconds it will take.
 
 Your program should check if the user enters a valid
 menu choice, if not, it should terminate with an appropriate
@@ -15,52 +17,76 @@ message
 */
 
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
-int promptUser();
-int validateUser(string medium);
+int getMediumIndex(string *mediums);
+double getDistance();
+double calculateTime(int *speeds, double distance, int medium);
 
 int main() {
-    int userInput = promptUser();
-
-    if (userInput > 0) cout << "sound moves at " << userInput << " ft/sec";
+    string mediums[3] = {"air", "water", "steel"};
+    int speeds[3] = {1100, 4900, 16400};
+    int medium = getMediumIndex(mediums);
+    double distance = getDistance();
+    double time = calculateTime(speeds, distance, medium);
+    cout << "The sound wave will travel " << distance << " feet through ";
+    cout << mediums[medium] << " in " << fixed << setprecision(4) << time << " seconds." << endl;
     return 0;
 }
+
+
 /*
-Function: promptUser
-parameters: None
-returns: int validateUser
-
-This function is designed to prompt the user for a medium of sound,
-then return the speed of which sound moves in said medium
+Function: getMediumIndex
+Params: string mediums[]
+Return: int
+------------------------
+Function to prompt the user for a medium, then validate input and return valid medium
 */
-int promptUser(){
-    int speed;
-    string medium;
-    cout << "Enter a Medium from below \n\t1. Air\n\t2. Water\n\t2. Steel\nMedium: ";
-    cin >> medium;
+int getMediumIndex(string *mediums){
+    int medium = 0;
+    do {
+        cout << "Select a substance for the sound to travel through:" << endl;
+        for (int i = 0; i < 3; i++) {
+            cout << "\t" << i + 1 << ". " << mediums[i] << endl;
+        }
+        cin >> medium;
+        medium--;
+    }
+    while (medium < 0 || medium >=2);
 
-    return validateUser(medium);
+    return medium;
 }
 
 /*
-Funciton: validateUser
-paramters: string medium
-returns: int speed
-
-This function is designed to validate the input from user and return
-the speed within the medium if the value is valid.
-
-if the value is not valid, invalid arge output to cout and exit program
+Funciton: getDistance
+Params: na
+Return: double
+---------------------
+Function to prompt the user for a distance the sound will
+travel and validate the input, then return the distane.
 */
-int validateUser(string medium) {
-    int speed;
-    if (medium == "Air") speed = 1100;
-    else if (medium == "Water") speed = 4900;
-    else if (medium == "Steel") speed = 16400;
-    else {
-        cout << "Invalid Argument, Run script again with different Value";
-        exit;
+double getDistance(){
+    double distance;
+    do {
+        cout << "Enter the number of feet the sound wave will travel: ";
+        cin >> distance;
     }
-    return speed;
+    while(distance < 0);
+
+    return distance;
+}
+
+/*
+Function: calculate Time
+Params: int speeds[], double distance, int medium
+Return: double
+----------------------------
+Function to calculate the time of a sound wave to travel
+at a given distance in a given medium.
+*/
+double calculateTime(int *speeds, double distance, int medium){
+    int speed = speeds[medium];
+    double time = distance / speed;
+    return time;
 }
